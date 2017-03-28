@@ -1,0 +1,58 @@
+{
+  "name": "tall",
+  "version": "1.0.0",
+  "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=4.3.2"
+  },
+  "scripts": {
+    "build": "NODE_ENV=production webpack -p --env production",
+    "release:tag": "git tag $npm_package_version && git push --tags",
+    "test:lint": "eslint src/**/*.js",
+    "test:jest": "jest --verbose --coverage",
+    "test": "npm run test:lint && npm run test:jest",
+    "posttest": "tap --coverage-report=lcov && codecov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lmammino/tall.git"
+  },
+  "author": {
+    "name": "Luciano Mammino",
+    "email": "lucianomammino@gmail.com",
+    "url": "http://loige.co"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lmammino/tall/issues"
+  },
+  "homepage": "https://github.com/lmammino/tall#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.0",
+    "codecov": "^2.1.0",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "jest": "^19.0.2",
+    "webpack": "^2.3.2"
+  },
+  "keywords": [
+    "URL",
+    "shortner",
+    "unshortner",
+    "expander",
+    "tall",
+    "link",
+    "expand link",
+    "expand url",
+    "promise",
+    "no depenencies",
+    "no dependency"
+  ]
+}
