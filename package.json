@@ -11,8 +11,7 @@
     "release:tag": "git tag $npm_package_version && git push --tags",
     "test:lint": "eslint src/**/*.js",
     "test:jest": "jest --verbose --coverage",
-    "test": "npm run test:lint && npm run test:jest",
-    "posttest": "tap --coverage-report=lcov && codecov"
+    "test": "npm run test:lint && npm run test:jest"
   },
   "repository": {
     "type": "git",
