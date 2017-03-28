@@ -31,7 +31,7 @@ import { tall } from 'tall';
 
 tall('http://www.loige.link/codemotion-rome-2017')
   .then(unshortenedUrl => console.log('Tall url', unshortenedUrl))
-  .catch(err => console.err('AAAW 👻', err))
+  .catch(err => console.error('AAAW 👻', err))
 ;
 ```
 
@@ -45,7 +45,7 @@ async someFunction() {
     const unshortenedUrl = await tall('http://www.loige.link/codemotion-rome-2017');
     console.log('Tall url', unshortenedUrl);
   } catch (err) {
-    console.err('AAAW 👻', err);
+    console.error('AAAW 👻', err);
   }
 }
 
@@ -58,7 +58,7 @@ ES5:
 var tall = require('tall').default;
 tall('http://www.loige.link/codemotion-rome-2017')
   .then(unshortenedUrl => console.log('Tall url', unshortenedUrl))
-  .catch(err => console.err('AAAW 👻', err))
+  .catch(err => console.error('AAAW 👻', err))
 ;
 ```
 
