@@ -16,7 +16,7 @@ test:
   override:
     - yarn test
   post:
-    - cp coverage/lcov-report  $CIRCLE_TEST_REPORTS/coverage
+    - cp -r coverage/lcov-report  $CIRCLE_TEST_REPORTS/coverage
     - codecov
     - if [ $CIRCLE_BRANCH = 'master' ]; then npm run build; fi
     - if [ $CIRCLE_BRANCH = 'master' ]; then npm run release:tag && npm publish; fi
