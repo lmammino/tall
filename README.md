@@ -1,7 +1,7 @@
 # tall
 
 [![npm version](https://badge.fury.io/js/tall.svg)](http://badge.fury.io/js/tall)
-[![CircleCI](https://circleci.com/gh/lmammino/tall.svg?style=svg)](https://circleci.com/gh/lmammino/tall)
+[![CircleCI](https://circleci.com/gh/lmammino/tall.svg?style=shield)](https://circleci.com/gh/lmammino/tall)
 [![codecov.io](https://codecov.io/gh/lmammino/tall/coverage.svg?branch=master)](https://codecov.io/gh/lmammino/tall)
 
 Promise-based, No-dependency URL unshortner (expander) module for Node.js
