@@ -57,8 +57,12 @@ ES5:
 ```javascript
 var tall = require('tall').default;
 tall('http://www.loige.link/codemotion-rome-2017')
-  .then(unshortenedUrl => console.log('Tall url', unshortenedUrl))
-  .catch(err => console.error('AAAW 👻', err))
+  .then(function(unshortenedUrl) {
+    console.log('Tall url', unshortenedUrl);
+  })
+  .catch(function(err) {
+    console.error('AAAW 👻', err);
+  })
 ;
 ```
 
