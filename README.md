@@ -6,7 +6,6 @@
 
 Promise-based, No-dependency URL unshortner (expander) module for Node.js
 
-
 ## Install
 
 Using npm
@@ -21,18 +20,16 @@ or with yarn
 yarn add tall
 ```
 
-
 ## Usage
 
 ES6+ usage:
 
 ```javascript
-import { tall } from 'tall';
+import { tall } from 'tall'
 
 tall('http://www.loige.link/codemotion-rome-2017')
   .then(unshortenedUrl => console.log('Tall url', unshortenedUrl))
   .catch(err => console.error('AAAW 👻', err))
-;
 ```
 
 With Async await:
@@ -55,24 +52,43 @@ someFunction();
 ES5:
 
 ```javascript
-var tall = require('tall').default;
+var tall = require('tall').default
 tall('http://www.loige.link/codemotion-rome-2017')
   .then(function(unshortenedUrl) {
-    console.log('Tall url', unshortenedUrl);
+    console.log('Tall url', unshortenedUrl)
   })
   .catch(function(err) {
-    console.error('AAAW 👻', err);
+    console.error('AAAW 👻', err)
   })
-;
 ```
 
+## Options
+
+It is possible to specify some options as second parameter to the `tall` function.
+
+Available options are the following:
+
+- `method` (default `"GET"`): any available HTTP method
+- `maxRedirects` (default `3`): the number of maximum redirects that will be followed in case of multiple redirects.
+
+Example:
+
+```javascript
+import { tall } from 'tall'
+
+tall('http://www.loige.link/codemotion-rome-2017', {
+  method: 'HEAD',
+  maxRedirect: 10
+})
+  .then(unshortenedUrl => console.log('Tall url', unshortenedUrl))
+  .catch(err => console.error('AAAW 👻', err))
+```
 
 ## Contributing
 
 Everyone is very welcome to contribute to this project.
 You can contribute just by submitting bugs or suggesting improvements by
 [opening an issue on GitHub](https://github.com/lmammino/tall/issues).
-
 
 ## License
 
