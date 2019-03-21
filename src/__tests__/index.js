@@ -24,7 +24,7 @@ test('it should fail with invalid urls', () => {
   )
 })
 
-test("it should return the same url if it's not a short url", () => {
+test(`it should return the same url if it's not a short url`, () => {
   tall('https://www.nodejsdesignpatterns.com/').then(url =>
     expect(url).toBe('https://www.nodejsdesignpatterns.com/')
   )
