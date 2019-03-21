@@ -24,7 +24,12 @@ export const tall = (url, options) => {
     return request({ method, protocol, host, path, headers }, response => {
       if (response.headers.location && opt.maxRedirects) {
         opt.maxRedirects--
-        return resolve(tall(response.headers.location,opt))
+        return resolve(
+          tall(response.headers.location.startsWith('http')
+            ? response.headers.location
+            :`${protocol}//${host}${response.headers.location}`,opt
+          )
+        )
       }
 
       resolve(url)

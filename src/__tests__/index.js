@@ -45,3 +45,8 @@ test('it should unshorten medium links / set User-Agent header', (done) => {
     done()
   })
 })
+
+test('it should not fail with location without hostname', async () => {
+  const url = await tall('https://www.bustle.com/p/the-best-strategy-board-games-for-adults-15561360')
+  expect(url).toBe('https://www.bustle.com/p/the-10-best-strategy-board-games-for-adults-15561360')
+})
