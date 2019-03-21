@@ -71,6 +71,7 @@ Available options are the following:
 
 - `method` (default `"GET"`): any available HTTP method
 - `maxRedirects` (default `3`): the number of maximum redirects that will be followed in case of multiple redirects.
+- `headers` (default {}): change request headers - e.g. {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36'}
 
 Example:
 
