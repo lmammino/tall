@@ -21,6 +21,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
+      - run: npm run coverage:submit
       - deploy:
           name: Deploy to GitHub and NPM
           command: |
