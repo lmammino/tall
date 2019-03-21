@@ -1,6 +1,6 @@
 {
   "name": "tall",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
   "main": "lib/index.js",
   "engines": {
@@ -11,7 +11,8 @@
     "release:tag": "git tag $npm_package_version && git push --tags",
     "test:lint": "eslint src/**/*.js",
     "test:jest": "jest --verbose --coverage",
-    "test": "npm run test:lint && npm run test:jest"
+    "test": "npm run test:lint && npm run test:jest",
+    "coverage:submit": "codecov"
   },
   "files": [
     "lib/",
@@ -38,7 +39,7 @@
     "@babel/preset-env": "^7.1.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.5.0",
-    "codecov": "^3.1.0",
+    "codecov": "^3.2.0",
     "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-standard": "^12.0.0",
