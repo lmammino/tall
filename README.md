@@ -3,6 +3,7 @@
 [![npm version](https://badge.fury.io/js/tall.svg)](http://badge.fury.io/js/tall)
 [![CircleCI](https://circleci.com/gh/lmammino/tall.svg?style=shield)](https://circleci.com/gh/lmammino/tall)
 [![codecov.io](https://codecov.io/gh/lmammino/tall/coverage.svg?branch=master)](https://codecov.io/gh/lmammino/tall)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 Promise-based, No-dependency URL unshortner (expander) module for Node.js
 
@@ -70,6 +71,7 @@ Available options are the following:
 
 - `method` (default `"GET"`): any available HTTP method
 - `maxRedirects` (default `3`): the number of maximum redirects that will be followed in case of multiple redirects.
+- `headers` (default {}): change request headers - e.g. {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36'}
 
 Example:
 

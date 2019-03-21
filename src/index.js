@@ -6,7 +6,8 @@ import { request as httpsReq } from 'https'
 
 const defaultOptions = {
   method: 'GET',
-  maxRedirects: 3
+  maxRedirects: 3,
+  headers: {}
 }
 
 export const tall = (url, options) => {
@@ -19,10 +20,16 @@ export const tall = (url, options) => {
 
     const method = opt.method
     const request = protocol === 'https:' ? httpsReq : httpReq
-    return request({ method, protocol, host, path }, response => {
+    const headers = opt.headers
+    return request({ method, protocol, host, path, headers }, response => {
       if (response.headers.location && opt.maxRedirects) {
         opt.maxRedirects--
-        return resolve(tall(response.headers.location.startsWith('http')?response.headers.location:`${protocol}//${host}${response.headers.location}`,opt))
+        return resolve(
+          tall(response.headers.location.startsWith('http')
+            ? response.headers.location
+            :`${protocol}//${host}${response.headers.location}`,opt
+          )
+        )
       }
 
       resolve(url)

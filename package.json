@@ -1,6 +1,6 @@
 {
   "name": "tall",
-  "version": "2.0.0",
+  "version": "2.0.4",
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
   "main": "lib/index.js",
   "engines": {
@@ -11,7 +11,8 @@
     "release:tag": "git tag $npm_package_version && git push --tags",
     "test:lint": "eslint src/**/*.js",
     "test:jest": "jest --verbose --coverage",
-    "test": "npm run test:lint && npm run test:jest"
+    "test": "npm run test:lint && npm run test:jest",
+    "coverage:submit": "codecov"
   },
   "files": [
     "lib/",
@@ -37,18 +38,18 @@
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^23.6.0",
-    "codecov": "^3.1.0",
-    "eslint": "^5.6.1",
+    "babel-jest": "^24.5.0",
+    "codecov": "^3.2.0",
+    "eslint": "^5.15.3",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-standard": "^4.0.0",
-    "jest": "^23.6.0",
+    "jest": "^24.5.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
   },
