@@ -68,7 +68,8 @@
   ],
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
-    "babel-loader": "^8.0.4"
+    "babel-loader": "^8.0.4",
+    "core-js": "^3.0.1"
   },
   "jest": {
     "verbose": true,

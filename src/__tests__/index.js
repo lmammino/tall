@@ -20,6 +20,15 @@ test('it should unshorten bit.ly links', (done) => {
   })
 })
 
+test('it should unshorten links that point to a non standard port', (done) => {
+  tall('https://loige.link/aqj').then(url => {
+    expect(url).toBe(
+      'http://portquiz.net:8080/'
+    )
+    done()
+  })
+})
+
 test('it should fail with invalid urls', (done) => {
   tall('this is invalid').catch(e => {
     expect(e.message).toBe('Invalid url: this is invalid')
