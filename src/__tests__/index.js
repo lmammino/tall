@@ -27,11 +27,15 @@ test('it should unshorten links that point to a non standard port', (done) => {
     )
     done()
   })
+    .catch((err) => {
+      console.error(err)
+      done(err)
+    })
 })
 
 test('it should fail with invalid urls', (done) => {
   tall('this is invalid').catch(e => {
-    expect(e.message).toBe('Invalid url: this is invalid')
+    expect(e.message).toBe('Invalid URL: this is invalid')
     done()
   })
 })

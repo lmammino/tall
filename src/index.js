@@ -1,6 +1,6 @@
 /* eslint consistent-return: "off" */
 
-import { parse } from 'url'
+import { URL } from 'url'
 import { request as httpReq } from 'http'
 import { request as httpsReq } from 'https'
 
@@ -14,8 +14,8 @@ export const tall = (url, options) => {
   const opt = Object.assign({}, defaultOptions, options)
   return new Promise((resolve, reject) => {
     try {
-      const { protocol, host, path } = parse(url)
-      if (!protocol || !host || !path) {
+      const { protocol, host, pathname } = new URL(url)
+      if (!protocol || !host || !pathname) {
         return reject(new Error(`Invalid url: ${url}`))
       }
 
@@ -27,7 +27,7 @@ export const tall = (url, options) => {
       const method = opt.method
       const request = protocol === 'https:' ? httpsReq : httpReq
       const headers = opt.headers
-      return request({ method, protocol, host: cleanHost, port, path, headers }, response => {
+      return request({ method, protocol, host: cleanHost, port, path: pathname, headers }, response => {
         if (response.headers.location && opt.maxRedirects) {
           opt.maxRedirects--
           return resolve(
@@ -39,9 +39,9 @@ export const tall = (url, options) => {
         }
 
         resolve(url)
-      }).on('error', function (err) {
-        return reject(err)
-      }).end()
+      })
+        .on('error', reject)
+        .end()
     } catch (err) {
       return reject(err)
     }
