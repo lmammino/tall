@@ -39,6 +39,8 @@ export const tall = (url, options) => {
         }
 
         resolve(url)
+      }).on('error', function (err) {
+        return reject(err)
       }).end()
     } catch (err) {
       return reject(err)
