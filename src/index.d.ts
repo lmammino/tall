@@ -5,19 +5,19 @@ export interface TallHTTPHeaders {
 }
 
 /**
- * @property {AvailableHTTPMethod} method Any available HTTP method. (default "GET")
+ * @property {TallAvailableHTTPMethod} method Any available HTTP method. (default "GET")
  * @property {number} maxRedirects The number of maximum redirects that will be followed in case of multiple redirects. (default 3)
- * @property {HTTPHeaders} headers Change request headers.
+ * @property {TallHTTPHeaders} headers Change request headers.
  */
 export interface TallOptions {
-    method?: AvailableHTTPMethod
+    method?: TallAvailableHTTPMethod
     maxRedirects?: number
-    headers?: HTTPHeaders
+    headers?: TallHTTPHeaders
 }
 
 /**
  * URL expander
  */
-declare function tall(urlToExpand: string, options?: Options): Promise<string>;
+declare function tall(urlToExpand: string, options?: TallOptions): Promise<string>;
 
 export default tall
