@@ -38,7 +38,7 @@ With Async await:
 ```javascript
 import { tall } from 'tall';
 
-async someFunction() {
+async function someFunction() {
   try {
     const unshortenedUrl = await tall('http://www.loige.link/codemotion-rome-2017');
     console.log('Tall url', unshortenedUrl);
