@@ -25,9 +25,6 @@ export const tall = (url: string, options?: TallOptions): Promise<string> => {
   return new Promise((resolve, reject) => {
     try {
       const { protocol, host, pathname } = new URL(url)
-      if (!protocol || !host || !pathname) {
-        return reject(new Error(`Invalid url: ${url}`))
-      }
 
       let [cleanHost, port] = host.split(':', 2)
       if (typeof port === 'undefined') {

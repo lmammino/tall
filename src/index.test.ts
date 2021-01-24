@@ -35,43 +35,15 @@ test('it should unshorten a link using http', async () => {
   expect(url).toBe('http://dest.pizza/a-link')
 })
 
-// test('it should unshorten links that point to a non standard port', async () => {
-//   const scope = nock('https://source2.link')
-//     .get('/a-link')
-//     .reply(301, 'Moved', { location: 'http://destination.link:8080/a-link' })
+test('it should fail if an invalid URL is given', async () => {
+  await expect(() => tall('this is not a URL')).rejects.toMatchObject({ message: 'Invalid URL: this is not a URL' })
+})
 
-//   console.log('-------> PRE')
-//   const url = await tall('https://source2.link/a-link')
-//   console.log('-------> POST')
+test('it should fail if a URL without protocol is given', async () => {
+  await expect(() => tall('example.com')).rejects.toMatchObject({ message: 'Invalid URL: example.com' })
+})
 
-//   expect(url).toBe('http://destination.link:8080/a-link')
-//   expect(scope.isDone).toBeTruthy()
-// })
-
-// tap.test('it should fail with invalid urls', async () => {
-//   try {
-//     await tall('this is invalid')
-//   } catch (e) {
-//     tap.equal(e.message, 'Invalid URL: this is invalid')
-//   }
-// })
-
-// tap.test('it should return the same url if it\'s not a short url', async () => {
-//   const url = await tall('https://www.nodejsdesignpatterns.com/')
-//   tap.equal(url, 'https://www.nodejsdesignpatterns.com/')
-// })
-
-// tap.test('it should unshorten medium links / set User-Agent header', async () => {
-//   const url = await tall('https://link.medium.com/yNuAPxmdNR', {
-//     maxRedirects: 4,
-//     headers: {
-//       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36'
-//     }
-//   })
-//   tap.match(url, /^https:\/\/hackernoon.com\/everything-i-knew-about-reading-was-wrong-bde7e57fbfdc/)
-// })
-
-// tap.test('it should not fail with location without hostname', async () => {
-//   const url = await tall('https://www.bustle.com/p/the-best-strategy-board-games-for-adults-15561360')
-//   tap.equal(url, 'https://www.bustle.com/p/the-10-best-strategy-board-games-for-adults-15561360')
-// })
+// TODO: add test for max redirects
+// TODO: add a test for a different method
+// TODO: add a test for sending headers
+// TODO: add a test for no redirect
