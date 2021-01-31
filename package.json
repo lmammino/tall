@@ -16,11 +16,11 @@
   "scripts": {
     "clean": "rm -rf ./lib",
     "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+    "build:test": "echo TODO",
     "prepublish": "npm run build",
     "test:lint": "eslint .",
     "test:unit": "jest --coverage --verbose",
-    "test": "npm run test:lint && npm run test:unit",
-    "coverage:submit": "codecov"
+    "test": "npm run test:lint && npm run test:unit"
   },
   "repository": {
     "type": "git",
