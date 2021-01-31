@@ -46,6 +46,11 @@ jobs:
         env:
           CI: true
 
+      - name: Link
+        run: npm link
+        env:
+          CI: true
+
       - name: Test Build
         run: npm run build:test
         env:

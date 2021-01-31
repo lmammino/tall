@@ -5,9 +5,14 @@
   "type": "module",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
+  "exports": {
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js"
+  },
   "files": [
     "lib/",
-    "!lib/**/*.test*"
+    "!lib/**/*.test*",
+    "!lib/**/jest.*"
   ],
   "engines": {
     "node": ">=12.0.0"
@@ -15,8 +20,8 @@
   "engineStrict": true,
   "scripts": {
     "clean": "rm -rf ./lib",
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
-    "build:test": "echo TODO",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && echo '{\"type\":\"commonjs\"}' > lib/cjs/package.json",
+    "build:test": "node test/commonjs.cjs && node test/esm.js",
     "prepublish": "npm run build",
     "test:lint": "eslint .",
     "test:unit": "jest --coverage --verbose",

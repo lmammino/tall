@@ -55,5 +55,3 @@ export const tall = (url: string, options?: TallOptions): Promise<string> => {
     }
   })
 }
-
-export default tall

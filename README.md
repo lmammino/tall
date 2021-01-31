@@ -53,7 +53,7 @@ someFunction();
 ES5:
 
 ```javascript
-var tall = require('tall').default
+var { tall } = require('tall')
 tall('http://www.loige.link/codemotion-rome-2017')
   .then(function(unshortenedUrl) {
     console.log('Tall url', unshortenedUrl)
