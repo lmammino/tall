@@ -7,6 +7,9 @@
 
 Promise-based, No-dependency URL unshortner (expander) module for Node.js 12+.
 
+**Note**: This library is written in **TypeScript** and type definitions are provided.
+
+
 ## Install
 
 Using npm
@@ -71,7 +74,7 @@ Available options are the following:
 
 - `method` (default `"GET"`): any available HTTP method
 - `maxRedirects` (default `3`): the number of maximum redirects that will be followed in case of multiple redirects.
-- `headers` (default {}): change request headers - e.g. `{'User-Agent': 'your-custom-user-agent'}`
+- `headers` (default `{}`): change request headers - e.g. `{'User-Agent': 'your-custom-user-agent'}`
 
 Example:
 
