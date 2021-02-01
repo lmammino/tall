@@ -1,7 +1,7 @@
 # tall
 
-[![npm version](https://badge.fury.io/js/tall.svg)](http://badge.fury.io/js/tall)
-[![CircleCI](https://circleci.com/gh/lmammino/tall.svg?style=shield)](https://circleci.com/gh/lmammino/tall)
+[![npm version](https://img.shields.io/npm/v/tall)](https://npm.im/tall)
+[![Build Status](https://github.com/lmammino/tall/workflows/main/badge.svg)](https://github.com/lmammino/tall/actions?query=workflow%3Amain)
 [![codecov.io](https://codecov.io/gh/lmammino/tall/coverage.svg?branch=master)](https://codecov.io/gh/lmammino/tall)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
