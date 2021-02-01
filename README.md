@@ -4,6 +4,7 @@
 [![Build Status](https://github.com/lmammino/tall/workflows/main/badge.svg)](https://github.com/lmammino/tall/actions?query=workflow%3Amain)
 [![codecov.io](https://codecov.io/gh/lmammino/tall/coverage.svg?branch=master)](https://codecov.io/gh/lmammino/tall)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Written in TypeScript](https://badgen.net/badge/-/TypeScript?icon=typescript&label&labelColor=blue&color=555555)](https://www.typescriptlang.org/)
 
 Promise-based, No-dependency URL unshortner (expander) module for Node.js 12+.
 
