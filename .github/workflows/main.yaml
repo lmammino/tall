@@ -9,7 +9,7 @@ jobs:
         node: [12, 13, 14, 15]
 
     steps:
-      - name: Begin CI...
+      - name: Checkout
         uses: actions/checkout@v2
 
       - name: Use Node ${{ matrix.node }}
