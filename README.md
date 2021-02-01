@@ -5,7 +5,7 @@
 [![codecov.io](https://codecov.io/gh/lmammino/tall/coverage.svg?branch=master)](https://codecov.io/gh/lmammino/tall)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-Promise-based, No-dependency URL unshortner (expander) module for Node.js
+Promise-based, No-dependency URL unshortner (expander) module for Node.js 12+.
 
 ## Install
 
@@ -53,7 +53,7 @@ someFunction();
 ES5:
 
 ```javascript
-var tall = require('tall').default
+var { tall } = require('tall')
 tall('http://www.loige.link/codemotion-rome-2017')
   .then(function(unshortenedUrl) {
     console.log('Tall url', unshortenedUrl)

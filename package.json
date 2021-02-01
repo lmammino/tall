@@ -1,33 +1,38 @@
 {
   "name": "tall",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
-  "main": "lib/index.js",
-  "typings": "src/index.d.ts",
-  "engines": {
-    "node": ">=8.0.0"
-  },
-  "engineStrict": true,
-  "scripts": {
-    "build": "NODE_ENV=production webpack -p --env production",
-    "release:tag": "git tag $npm_package_version && git push --tags",
-    "test:lint": "eslint src/**/*.js",
-    "test:jest": "jest --verbose --coverage",
-    "test": "npm run test:lint && npm run test:jest",
-    "coverage:submit": "codecov"
+  "type": "module",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "exports": {
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js"
   },
   "files": [
     "lib/",
-    "src/",
-    "!src/__tests__"
+    "!lib/**/*.test*",
+    "!lib/**/jest.*"
   ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "engineStrict": true,
+  "scripts": {
+    "clean": "rm -rf ./lib",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && echo '{\"type\":\"commonjs\"}' > lib/cjs/package.json",
+    "build:test": "node test/commonjs.cjs && node test/esm.js",
+    "prepublish": "npm run build",
+    "test:lint": "eslint .",
+    "test:unit": "jest --coverage --verbose",
+    "test": "npm run test:lint && npm run test:unit"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lmammino/tall.git"
   },
   "author": {
     "name": "Luciano Mammino",
-    "email": "lucianomammino@gmail.com",
     "url": "http://loige.co"
   },
   "license": "MIT",
@@ -35,26 +40,6 @@
     "url": "https://github.com/lmammino/tall/issues"
   },
   "homepage": "https://github.com/lmammino/tall#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.1",
-    "@babel/preset-env": "^7.10.1",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^26.0.1",
-    "codecov": "^3.7.0",
-    "eslint": "^7.1.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-standard": "^4.0.1",
-    "jest": "^26.0.1",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
-  },
   "keywords": [
     "URL",
     "shortner",
@@ -66,17 +51,25 @@
     "expand url",
     "promise",
     "no depenencies",
-    "no dependency"
+    "no dependency",
+    "typescript"
   ],
-  "dependencies": {
-    "@babel/polyfill": "^7.10.1",
-    "babel-loader": "^8.1.0",
-    "core-js": "^3.6.5"
-  },
-  "jest": {
-    "verbose": true,
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    }
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.22",
+    "@typescript-eslint/eslint-plugin": "^4.14.0",
+    "@typescript-eslint/parser": "^4.14.0",
+    "codecov": "^3.8.1",
+    "eslint": "^7.18.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "jest": "^26.6.3",
+    "nock": "^13.0.6",
+    "ts-jest": "^26.4.4",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
   }
 }
