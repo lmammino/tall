@@ -104,3 +104,20 @@ test('it should allow to use a different method', async () => {
 
   expect(url).toBe('https://example.com/test2')
 })
+
+test('it should support redirects containing querystring parameters (see #17 and #19)', async () => {
+  nock('http://bit.ly')
+    .head('/fkWS88')
+    .times(1)
+    .reply(301, 'Moved', { location: 'http://news.ycombinator.com/item?id=2025354' })
+
+  nock('http://news.ycombinator.com')
+    .head('/item')
+    .query({ id: 2025354 })
+    .times(1)
+    .reply(200, 'OK')
+
+  const url = await tall('http://bit.ly/fkWS88', { method: 'HEAD' })
+
+  expect(url).toBe('http://news.ycombinator.com/item?id=2025354')
+})
