@@ -24,9 +24,9 @@ export const tall = (url: string, options?: TallOptions): Promise<string> => {
   const opt = Object.assign({}, defaultOptions, options)
   return new Promise((resolve, reject) => {
     try {
-      const { protocol, host, pathname } = new URL(url)
+      const { protocol, host } = new URL(url)
 
-      let [cleanHost, port] = host.split(':', 2)
+      let [, port] = host.split(':', 2)
       if (typeof port === 'undefined') {
         // if no port is specified set the port based on protocol
         port = protocol === 'https:' ? '443' : '80'
@@ -35,7 +35,7 @@ export const tall = (url: string, options?: TallOptions): Promise<string> => {
       const method = opt.method
       const request = protocol === 'https:' ? httpsReq : httpReq
       const headers = opt.headers
-      return request({ method, protocol, host: cleanHost, port: port, path: pathname, headers }, response => {
+      return request(url, { method, headers }, response => {
         if (response.headers.location && opt.maxRedirects) {
           opt.maxRedirects--
           return resolve(
