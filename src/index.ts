@@ -9,18 +9,20 @@ export interface TallHTTPHeaders {
 }
 
 export interface TallOptions {
-  method?: TallAvailableHTTPMethod
-  maxRedirects?: number
-  headers?: TallHTTPHeaders
+  method: TallAvailableHTTPMethod
+  maxRedirects: number
+  headers: TallHTTPHeaders
+  timeout: number
 }
 
 const defaultOptions: TallOptions = {
   method: 'GET',
   maxRedirects: 3,
-  headers: {}
+  headers: {},
+  timeout: 120000
 }
 
-export const tall = (url: string, options?: TallOptions): Promise<string> => {
+export const tall = (url: string, options?: Partial<TallOptions>): Promise<string> => {
   const opt = Object.assign({}, defaultOptions, options)
   return new Promise((resolve, reject) => {
     try {
@@ -35,7 +37,7 @@ export const tall = (url: string, options?: TallOptions): Promise<string> => {
       const method = opt.method
       const request = protocol === 'https:' ? httpsReq : httpReq
       const headers = opt.headers
-      return request(url, { method, headers }, response => {
+      const req = request(url, { method, headers }, response => {
         if (response.headers.location && opt.maxRedirects) {
           opt.maxRedirects--
           return resolve(
@@ -48,8 +50,10 @@ export const tall = (url: string, options?: TallOptions): Promise<string> => {
 
         resolve(url)
       })
-        .on('error', reject)
-        .end()
+      req.on('error', reject)
+      req.setTimeout(opt.timeout, () => req.destroy())
+      req.end()
+      return req
     } catch (err) {
       return reject(err)
     }

@@ -1,6 +1,6 @@
 {
   "name": "tall",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
   "type": "module",
   "main": "./lib/cjs/index.js",
@@ -23,6 +23,7 @@
     "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && echo '{\"type\":\"commonjs\"}' > lib/cjs/package.json",
     "build:test": "node test/commonjs.cjs && node test/esm.js",
     "prepublish": "npm run build",
+    "prepare": "npm run build",
     "test:lint": "eslint .",
     "test:unit": "jest --coverage --verbose",
     "test": "npm run test:lint && npm run test:unit"
