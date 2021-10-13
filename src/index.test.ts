@@ -43,6 +43,32 @@ test('it should fail if a URL without protocol is given', async () => {
   await expect(() => tall('example.com')).rejects.toMatchObject({ message: 'Invalid URL: example.com' })
 })
 
+test('it should fail if the request times out', async () => {
+  nock('http://example.com')
+    .get('/a-link')
+    .times(1)
+    .delay(1000)
+    .reply(200, 'OK')
+
+  await expect(() => tall('http://example.com/a-link', { timeout: 1 })).rejects.toMatchObject({ message: 'socket hang up' })
+})
+
+test('it should not fail if the request is within the timeout', async () => {
+  nock('http://example.com')
+    .get('/a-link')
+    .times(1)
+    .delay(1)
+    .reply(301, 'Moved', { location: 'http://dest.pizza/a-link' })
+  nock('http://dest.pizza')
+    .get('/a-link')
+    .times(1)
+    .reply(200, 'OK')
+
+  const url = await tall('http://example.com/a-link', { timeout: 1000 })
+
+  expect(url).toBe('http://dest.pizza/a-link')
+})
+
 test('it should return the original url if no redirect', async () => {
   nock('https://example.com')
     .get('/test')
