@@ -36,11 +36,11 @@ test('it should unshorten a link using http', async () => {
 })
 
 test('it should fail if an invalid URL is given', async () => {
-  await expect(() => tall('this is not a URL')).rejects.toMatchObject({ message: 'Invalid URL: this is not a URL' })
+  await expect(() => tall('this is not a URL')).rejects.toThrow()
 })
 
 test('it should fail if a URL without protocol is given', async () => {
-  await expect(() => tall('example.com')).rejects.toMatchObject({ message: 'Invalid URL: example.com' })
+  await expect(() => tall('example.com')).rejects.toThrow()
 })
 
 test('it should fail if the request times out', async () => {
@@ -50,7 +50,7 @@ test('it should fail if the request times out', async () => {
     .delay(1000)
     .reply(200, 'OK')
 
-  await expect(() => tall('http://example.com/a-link', { timeout: 1 })).rejects.toMatchObject({ message: 'socket hang up' })
+  await expect(() => tall('http://example.com/a-link', { timeout: 1 })).rejects.toThrow()
 })
 
 test('it should not fail if the request is within the timeout', async () => {

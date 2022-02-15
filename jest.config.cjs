@@ -3,7 +3,7 @@
  * https://jestjs.io/docs/en/configuration.html
  */
 
-export default {
+module.exports = {
   displayName: 'tall',
   // All imported modules in your tests should be mocked automatically
   // automock: false,

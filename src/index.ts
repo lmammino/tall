@@ -4,7 +4,6 @@ import { request as httpsReq, RequestOptions } from 'https'
 
 export type TallAvailableHTTPMethod = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH'
 
-
 export interface TallOptions extends RequestOptions {
   method: TallAvailableHTTPMethod
   maxRedirects: number
