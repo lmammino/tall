@@ -1,17 +1,13 @@
 import { URL } from 'url'
 import { request as httpReq } from 'http'
-import { request as httpsReq } from 'https'
+import { request as httpsReq, RequestOptions } from 'https'
 
 export type TallAvailableHTTPMethod = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH'
 
-export interface TallHTTPHeaders {
-    [header: string]: string
-}
 
-export interface TallOptions {
+export interface TallOptions extends RequestOptions {
   method: TallAvailableHTTPMethod
   maxRedirects: number
-  headers: TallHTTPHeaders
   timeout: number
 }
 
@@ -34,10 +30,8 @@ export const tall = (url: string, options?: Partial<TallOptions>): Promise<strin
         port = protocol === 'https:' ? '443' : '80'
       }
 
-      const method = opt.method
       const request = protocol === 'https:' ? httpsReq : httpReq
-      const headers = opt.headers
-      const req = request(url, { method, headers }, response => {
+      const req = request(url, opt, response => {
         if (response.headers.location && opt.maxRedirects) {
           opt.maxRedirects--
           return resolve(
