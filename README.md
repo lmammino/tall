@@ -76,6 +76,9 @@ Available options are the following:
 - `method` (default `"GET"`): any available HTTP method
 - `maxRedirects` (default `3`): the number of maximum redirects that will be followed in case of multiple redirects.
 - `headers` (default `{}`): change request headers - e.g. `{'User-Agent': 'your-custom-user-agent'}`
+- `timeout`: (default: `120000`): timeout in milliseconds after which the request will be cancelled
+
+In addition, any other options available on [http.request()](`https://nodejs.org/api/http.html#httprequestoptions-callback`) or `https.request()` are accepted. This for example includes `rejectUnauthorized` to disable certificate checks.
 
 Example:
 
