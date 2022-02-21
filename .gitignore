@@ -38,3 +38,6 @@ jspm_packages
 
 # Compiled files
 lib/
+
+#vscode
+.vscode
