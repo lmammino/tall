@@ -20,7 +20,7 @@ export interface TallPlugin {
   (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop>
 }
 
-async function locationHeaderPlugin (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
+export async function locationHeaderPlugin (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
   const { protocol, host } = url
 
   if (response.headers.location) {

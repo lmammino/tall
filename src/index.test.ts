@@ -1,5 +1,6 @@
+import { IncomingMessage } from 'http'
 import nock from 'nock'
-import { tall } from '.'
+import { Follow, locationHeaderPlugin, Stop, tall } from '.'
 
 beforeEach(() => {
   nock.cleanAll()
@@ -146,4 +147,39 @@ test('it should support redirects containing querystring parameters (see #17 and
   const url = await tall('http://bit.ly/fkWS88', { method: 'HEAD' })
 
   expect(url).toBe('http://news.ycombinator.com/item?id=2025354')
+})
+
+test('The plugin chains behaves as expected', async () => {
+  nock('http://bit.ly')
+    .head('/fkWS88')
+    .times(1)
+    .reply(301, 'Moved', { location: 'http://news.ycombinator.com/item?id=2025354' })
+
+  nock('http://news.ycombinator.com')
+    .head('/item')
+    .query({ id: 2025354 })
+    .times(1)
+    .reply(200, 'OK')
+
+  const pluginTrace: string[] = []
+
+  const plugin1 = async function plugin1 (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
+    pluginTrace.push(`plugin 1 ${url.toString()}`)
+    return previous
+  }
+
+  const plugin2 = async function plugin1 (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
+    pluginTrace.push(`plugin 2 ${url.toString()}`)
+    return previous
+  }
+
+  const url = await tall('http://bit.ly/fkWS88', { method: 'HEAD', plugins: [locationHeaderPlugin, plugin1, plugin2] })
+
+  expect(url).toBe('http://news.ycombinator.com/item?id=2025354')
+  expect(pluginTrace).toEqual([
+    'plugin 1 http://bit.ly/fkWS88',
+    'plugin 2 http://bit.ly/fkWS88',
+    'plugin 1 http://news.ycombinator.com/item?id=2025354',
+    'plugin 2 http://news.ycombinator.com/item?id=2025354'
+  ])
 })
