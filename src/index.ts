@@ -1,54 +1,80 @@
-import { URL } from 'url'
-import { request as httpReq } from 'http'
+import { request as httpReq, IncomingMessage } from 'http'
 import { request as httpsReq, RequestOptions } from 'https'
 
-export type TallAvailableHTTPMethod = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'CONNECT' | 'OPTIONS' | 'TRACE' | 'PATCH'
+export class Follow {
+  follow: URL
+  constructor (follow: URL) {
+    this.follow = follow
+  }
+}
+
+export class Stop {
+  stop: URL
+  constructor (stop: URL) {
+    this.stop = stop
+  }
+}
+
+export interface TallPlugin {
+  (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop>
+}
+
+export async function locationHeaderPlugin (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
+  const { protocol, host } = url
+
+  if (response.headers.location) {
+    const followUrl = new URL(response.headers.location.startsWith('http')
+      ? response.headers.location
+      : `${protocol}//${host}${response.headers.location}`)
+    return new Follow(followUrl)
+  }
+
+  return previous
+}
 
 export interface TallOptions extends RequestOptions {
-  method: TallAvailableHTTPMethod
   maxRedirects: number
-  timeout: number
+  timeout: number,
+  plugins: TallPlugin[],
 }
 
 const defaultOptions: TallOptions = {
   method: 'GET',
   maxRedirects: 3,
   headers: {},
-  timeout: 120000
+  timeout: 120000,
+  plugins: [locationHeaderPlugin]
 }
 
-export const tall = (url: string, options?: Partial<TallOptions>): Promise<string> => {
-  const opt = Object.assign({}, defaultOptions, options)
+function makeRequest (url: URL, options: TallOptions): Promise<IncomingMessage> {
   return new Promise((resolve, reject) => {
-    try {
-      const { protocol, host } = new URL(url)
-
-      let [, port] = host.split(':', 2)
-      if (typeof port === 'undefined') {
-        // if no port is specified set the port based on protocol
-        port = protocol === 'https:' ? '443' : '80'
-      }
-
-      const request = protocol === 'https:' ? httpsReq : httpReq
-      const req = request(url, opt, response => {
-        if (response.headers.location && opt.maxRedirects) {
-          opt.maxRedirects--
-          return resolve(
-            tall(response.headers.location.startsWith('http')
-              ? response.headers.location
-              : `${protocol}//${host}${response.headers.location}`, opt
-            )
-          )
-        }
-
-        resolve(url)
-      })
-      req.on('error', reject)
-      req.setTimeout(opt.timeout, () => req.destroy())
-      req.end()
-      return req
-    } catch (err) {
-      return reject(err)
-    }
+    const request = url.protocol === 'https:' ? httpsReq : httpReq
+    const req = request(url, options as RequestOptions, response => {
+      resolve(response)
+    })
+    req.on('error', reject)
+    req.setTimeout(options.timeout, () => req.destroy())
+    req.end()
   })
+}
+
+export const tall = async (url: string, options?: Partial<TallOptions>): Promise<string> => {
+  const opt = Object.assign({}, defaultOptions, options)
+  if (opt.maxRedirects <= 0) {
+    return url.toString()
+  }
+
+  const parsedUrl = new URL(url)
+  let prev: Stop | Follow = new Stop(parsedUrl)
+  const response = await makeRequest(parsedUrl, opt)
+  for (const plugin of opt.plugins) {
+    prev = await plugin(parsedUrl, response, prev)
+  }
+
+  const maxRedirects = opt.maxRedirects - 1
+  if (prev instanceof Follow) {
+    return await tall(prev.follow.toString(), { ...options, maxRedirects })
+  }
+
+  return prev.stop.toString()
 }
