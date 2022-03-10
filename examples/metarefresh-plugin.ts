@@ -1,4 +1,4 @@
-import { IncomingMessage } from 'node:http'
+import { IncomingMessage } from 'http'
 import { Follow, Stop } from '../src'
 
 export async function metaRefreshPlugin (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {

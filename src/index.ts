@@ -1,5 +1,5 @@
-import { request as httpReq, IncomingMessage } from 'node:http'
-import { request as httpsReq, RequestOptions } from 'node:https'
+import { request as httpReq, IncomingMessage } from 'http'
+import { request as httpsReq, RequestOptions } from 'https'
 
 export class Follow {
   follow: URL

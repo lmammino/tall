@@ -158,8 +158,8 @@ Let's say we want to add a plugin that allows us to follow HTML meta refresh red
 
 ```typescript
 // metarefresh-plugin.ts
-import { IncomingMessage } from 'node:http'
-import { Follow, Stop } from '../src'
+import { IncomingMessage } from 'http'
+import { Follow, Stop } from 'tall'
 
 export async function metaRefreshPlugin (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
   let html = ''
