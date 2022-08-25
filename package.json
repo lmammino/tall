@@ -1,6 +1,6 @@
 {
   "name": "tall-root",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
   "private": true,
   "workspaces": [

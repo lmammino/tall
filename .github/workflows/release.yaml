@@ -12,16 +12,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Use Node 14
+      - name: Use Node 16
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
 
       - name: Use cached node_modules
         uses: actions/cache@v1
         with:
           path: node_modules
-          key: nodeModules-14-${{ hashFiles('**/package-lock.json') }}
+          key: nodeModules-16-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             nodeModules-
 

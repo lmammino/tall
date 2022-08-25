@@ -1,6 +1,6 @@
 {
   "name": "tall",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
   "type": "module",
   "main": "./lib/cjs/index.js",
@@ -15,7 +15,7 @@
     "!lib/**/jest.*"
   ],
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "engineStrict": true,
   "scripts": {
