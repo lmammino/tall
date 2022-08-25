@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [12, 13, 14, 15, 16, 17]
+        node: [14, 15, 16, 17, 18]
 
     steps:
       - name: Checkout
@@ -24,6 +24,11 @@ jobs:
           key: nodeModules-${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             nodeModules-
+
+      - name: Make sure npm is used
+        run: npm install -g npm@^8.5
+        env:
+          CI: true
 
       - name: Install dependencies
         run: npm install

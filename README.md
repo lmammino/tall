@@ -97,7 +97,7 @@ tall('http://www.loige.link/codemotion-rome-2017', {
 
 ## Plugins
 
-Since `tall` v5, a plugin system for extending the default behaviour of tall is available.
+Since `tall` v5+, a plugin system for extending the default behaviour of tall is available.
 
 By default `tall` comes with 1 single plugin, the `locationHeaderPlugin` which is enabled by default. This plugin follows redirects by looking at the `location` header in the HTTP response received from the source URL.
 
@@ -127,7 +127,7 @@ So the only thing you need to do is to write your custom behaviour following thi
 
 Every plugin is executed asynchronously, so a plugin returns a Promise that needs to resolve to a `Follow` or a `Stop` decision.
 
-Let's deep dive on these two concepts. `Follow` and `Stop` are defined as _follows_ (touché):
+Let's deep dive into these two concepts. `Follow` and `Stop` are defined as _follows_ (touché):
 
 ```typescript
 export class Follow {
@@ -147,9 +147,9 @@ export class Stop {
 
 `Follow` and `Stop` are effectively simple classes to express an intent: *should we follow the `follow` URL or should we stop at the `stop` URL?*
 
-Plugins are executed following the middleware pattern (or chain of responsability): they are executed in order and the information is propagated from one to the other.
+Plugins are executed following the middleware pattern (or chain of responsibility): they are executed in order and the information is propagated from one to the other.
 
-For example if we initialise `tall` with `{ plugins: [plugin1, plugin2] }`, for every URL, `plugin1` will be executed before `plugin2` and the decision of `plugin1` will passed over onto `plugin2` using the `previous`) parameter.
+For example, if we initialise `tall` with `{ plugins: [plugin1, plugin2] }`, for every URL, `plugin1` will be executed before `plugin2` and the decision of `plugin1` will be passed over onto `plugin2` using the `previous`) parameter.
 
 
 ## How to write and enable a plugin
@@ -200,6 +200,8 @@ Note that we have to explicitly pass the `locationHeaderPlugin` if we want to re
 Everyone is very welcome to contribute to this project.
 You can contribute just by submitting bugs or suggesting improvements by
 [opening an issue on GitHub](https://github.com/lmammino/tall/issues).
+
+> **Note**: Since Tall v6, the project structure is a monorepo, so you'll need to use a recent version of npm that supports workspaces (e.g. npm 8.5+)
 
 ## License
 
