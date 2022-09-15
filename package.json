@@ -1,10 +1,10 @@
 {
-  "name": "tall-root",
+  "name": "tall-monorepo",
   "version": "6.0.0",
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
   "private": true,
   "workspaces": [
-    "core"
+    "packages/*"
   ],
   "scripts": {
     "test": "npm test --workspaces",
