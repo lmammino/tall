@@ -30,11 +30,6 @@ jobs:
         env:
           CI: true
 
-      - name: Link
-        run: npm link
-        env:
-          CI: true
-
       - name: Install dependencies
         run: npm install
         env:
@@ -53,6 +48,11 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          CI: true
+
+      - name: Link
+        run: npm link
         env:
           CI: true
 
