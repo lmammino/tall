@@ -1,31 +1,39 @@
-import { request as httpReq, IncomingMessage } from 'http'
+import { IncomingMessage, request as httpReq } from 'http'
 import { request as httpsReq, RequestOptions } from 'https'
 
 export class Follow {
   follow: URL
-  constructor (follow: URL) {
+  constructor(follow: URL) {
     this.follow = follow
   }
 }
 
 export class Stop {
   stop: URL
-  constructor (stop: URL) {
+  constructor(stop: URL) {
     this.stop = stop
   }
 }
 
 export interface TallPlugin {
-  (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop>
+  (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<
+    Follow | Stop
+  >
 }
 
-export async function locationHeaderPlugin (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
+export async function locationHeaderPlugin(
+  url: URL,
+  response: IncomingMessage,
+  previous: Follow | Stop
+): Promise<Follow | Stop> {
   const { protocol, host } = url
 
   if (response.headers.location) {
-    const followUrl = new URL(response.headers.location.startsWith('http')
-      ? response.headers.location
-      : `${protocol}//${host}${response.headers.location}`)
+    const followUrl = new URL(
+      response.headers.location.startsWith('http')
+        ? response.headers.location
+        : `${protocol}//${host}${response.headers.location}`
+    )
     return new Follow(followUrl)
   }
 
@@ -34,8 +42,8 @@ export async function locationHeaderPlugin (url: URL, response: IncomingMessage,
 
 export interface TallOptions extends RequestOptions {
   maxRedirects: number
-  timeout: number,
-  plugins: TallPlugin[],
+  timeout: number
+  plugins: TallPlugin[]
 }
 
 const defaultOptions: TallOptions = {
@@ -46,10 +54,10 @@ const defaultOptions: TallOptions = {
   plugins: [locationHeaderPlugin]
 }
 
-function makeRequest (url: URL, options: TallOptions): Promise<IncomingMessage> {
+function makeRequest(url: URL, options: TallOptions): Promise<IncomingMessage> {
   return new Promise((resolve, reject) => {
     const request = url.protocol === 'https:' ? httpsReq : httpReq
-    const req = request(url, options as RequestOptions, response => {
+    const req = request(url, options as RequestOptions, (response) => {
       resolve(response)
     })
     req.on('error', reject)
@@ -58,7 +66,10 @@ function makeRequest (url: URL, options: TallOptions): Promise<IncomingMessage> 
   })
 }
 
-export const tall = async (url: string, options?: Partial<TallOptions>): Promise<string> => {
+export const tall = async (
+  url: string,
+  options?: Partial<TallOptions>
+): Promise<string> => {
   const opt = Object.assign({}, defaultOptions, options)
   if (opt.maxRedirects <= 0) {
     return url.toString()
