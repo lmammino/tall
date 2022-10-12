@@ -7,9 +7,11 @@
     "packages/*"
   ],
   "scripts": {
+    "format": "prettier --write ./**/*.{cjs,js,ts,json}",
+    "test:format": "prettier --list-different ./**/*.{cjs,js,ts,json}",
     "test:lint": "eslint .",
     "test:unit": "jest --coverage --verbose",
-    "test": "npm run test:lint && npm run test:unit",
+    "test": "npm run test:format && npm run test:lint && npm run test:unit",
     "build": "npm run build --if-present --workspaces",
     "build:test": "npm run build:test --if-present --workspaces"
   },
@@ -38,6 +40,7 @@
     "eslint-plugin-promise": "^6.0.1",
     "jest": "^29.1.2",
     "nock": "^13.0.6",
+    "prettier": "^2.7.1",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5"

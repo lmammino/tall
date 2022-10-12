@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http'
 import nock from 'nock'
-import { Follow, locationHeaderPlugin, Stop, tall } from '.'
+import { Follow, locationHeaderPlugin, Stop, tall } from './'
 
 beforeEach(() => {
   nock.cleanAll()
@@ -11,10 +11,7 @@ test('it should unshorten a link using https', async () => {
     .get('/a-link')
     .times(1)
     .reply(301, 'Moved', { location: 'https://dest.pizza/a-link' })
-  nock('https://dest.pizza')
-    .get('/a-link')
-    .times(1)
-    .reply(200, 'OK')
+  nock('https://dest.pizza').get('/a-link').times(1).reply(200, 'OK')
 
   const url = await tall('https://example.com/a-link')
 
@@ -26,10 +23,7 @@ test('it should unshorten a link using http', async () => {
     .get('/a-link')
     .times(1)
     .reply(301, 'Moved', { location: 'http://dest.pizza/a-link' })
-  nock('http://dest.pizza')
-    .get('/a-link')
-    .times(1)
-    .reply(200, 'OK')
+  nock('http://dest.pizza').get('/a-link').times(1).reply(200, 'OK')
 
   const url = await tall('http://example.com/a-link')
 
@@ -51,7 +45,9 @@ test('it should fail if the request times out', async () => {
     .delay(1000)
     .reply(200, 'OK')
 
-  await expect(() => tall('http://example.com/a-link', { timeout: 1 })).rejects.toThrow()
+  await expect(() =>
+    tall('http://example.com/a-link', { timeout: 1 })
+  ).rejects.toThrow()
 })
 
 test('it should not fail if the request is within the timeout', async () => {
@@ -60,10 +56,7 @@ test('it should not fail if the request is within the timeout', async () => {
     .times(1)
     .delay(1)
     .reply(301, 'Moved', { location: 'http://dest.pizza/a-link' })
-  nock('http://dest.pizza')
-    .get('/a-link')
-    .times(1)
-    .reply(200, 'OK')
+  nock('http://dest.pizza').get('/a-link').times(1).reply(200, 'OK')
 
   const url = await tall('http://example.com/a-link', { timeout: 1000 })
 
@@ -71,10 +64,7 @@ test('it should not fail if the request is within the timeout', async () => {
 })
 
 test('it should return the original url if no redirect', async () => {
-  nock('https://example.com')
-    .get('/test')
-    .times(1)
-    .reply(200, 'OK')
+  nock('https://example.com').get('/test').times(1).reply(200, 'OK')
 
   const url = await tall('https://example.com/test')
 
@@ -133,10 +123,9 @@ test('it should allow to use a different method', async () => {
 })
 
 test('it should support redirects containing querystring parameters (see #17 and #19)', async () => {
-  nock('http://bit.ly')
-    .head('/fkWS88')
-    .times(1)
-    .reply(301, 'Moved', { location: 'http://news.ycombinator.com/item?id=2025354' })
+  nock('http://bit.ly').head('/fkWS88').times(1).reply(301, 'Moved', {
+    location: 'http://news.ycombinator.com/item?id=2025354'
+  })
 
   nock('http://news.ycombinator.com')
     .head('/item')
@@ -150,10 +139,9 @@ test('it should support redirects containing querystring parameters (see #17 and
 })
 
 test('The plugin chains behaves as expected', async () => {
-  nock('http://bit.ly')
-    .head('/fkWS88')
-    .times(1)
-    .reply(301, 'Moved', { location: 'http://news.ycombinator.com/item?id=2025354' })
+  nock('http://bit.ly').head('/fkWS88').times(1).reply(301, 'Moved', {
+    location: 'http://news.ycombinator.com/item?id=2025354'
+  })
 
   nock('http://news.ycombinator.com')
     .head('/item')
@@ -163,17 +151,28 @@ test('The plugin chains behaves as expected', async () => {
 
   const pluginTrace: string[] = []
 
-  const plugin1 = async function plugin1 (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
+  const plugin1 = async function plugin1(
+    url: URL,
+    response: IncomingMessage,
+    previous: Follow | Stop
+  ): Promise<Follow | Stop> {
     pluginTrace.push(`plugin 1 ${url.toString()}`)
     return previous
   }
 
-  const plugin2 = async function plugin1 (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
+  const plugin2 = async function plugin1(
+    url: URL,
+    response: IncomingMessage,
+    previous: Follow | Stop
+  ): Promise<Follow | Stop> {
     pluginTrace.push(`plugin 2 ${url.toString()}`)
     return previous
   }
 
-  const url = await tall('http://bit.ly/fkWS88', { method: 'HEAD', plugins: [locationHeaderPlugin, plugin1, plugin2] })
+  const url = await tall('http://bit.ly/fkWS88', {
+    method: 'HEAD',
+    plugins: [locationHeaderPlugin, plugin1, plugin2]
+  })
 
   expect(url).toBe('http://news.ycombinator.com/item?id=2025354')
   expect(pluginTrace).toEqual([
