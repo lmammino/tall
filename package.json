@@ -7,7 +7,9 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "npm test --workspaces",
+    "test:lint": "eslint .",
+    "test:unit": "jest --coverage --verbose",
+    "test": "npm run test:lint && npm run test:unit",
     "build": "npm run build --if-present --workspaces",
     "build:test": "npm run build:test --if-present --workspaces"
   },
