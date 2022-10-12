@@ -22,9 +22,7 @@
     "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && echo '{\"type\":\"commonjs\"}' > lib/cjs/package.json",
     "build:test": "node test/commonjs.cjs && node test/esm.js",
     "prepublish": "npm run build",
-    "prepare": "npm run build",
-    "test:lint": "eslint .",
-    "test": "npm run test:lint"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
