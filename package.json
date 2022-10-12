@@ -31,6 +31,7 @@
     "@typescript-eslint/parser": "^5.12.0",
     "codecov": "^3.8.1",
     "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-n": "^15.3.0",
