@@ -1,6 +1,6 @@
 import * as htmlparser2 from 'htmlparser2'
 import { IncomingMessage } from 'http'
-import { Follow, Stop } from 'tall'
+import type { Follow, Stop } from '../../tall'
 
 export async function metaRefreshPlugin(
   url: URL,
