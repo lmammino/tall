@@ -16,12 +16,6 @@ export async function metaRefreshPlugin(
 
   const parser = new htmlparser2.Parser({
     onopentag(name, attributes) {
-      /*
-       * This fires when a new tag is opened.
-       *
-       * If you don't need an aggregated `attributes` object,
-       * have a look at the `onopentagname` and `onattribute` events.
-       */
       if (name === 'meta' && attributes['http-equiv'] === 'refresh') {
         const match = attributes.content.match(/url=['"]?([^'"]*)/i)
         if (match) {
