@@ -57,7 +57,7 @@
   ],
   "devDependencies": {
     "@types/htmlparser2": "^3.10.3",
-    "tall": ">=5.0.0"
+    "tall": "file:../../tall"
   },
   "dependencies": {
     "htmlparser2": "^8.0.1"
