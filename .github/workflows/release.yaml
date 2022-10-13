@@ -22,8 +22,6 @@ jobs:
         with:
           path: node_modules
           key: nodeModules-16-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            nodeModules-
 
       - name: Install dependencies
         run: npm install
