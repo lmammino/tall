@@ -21,8 +21,8 @@
     "clean": "rm -rf ./lib",
     "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && echo '{\"type\":\"commonjs\"}' > lib/cjs/package.json",
     "build:test": "node test/commonjs.cjs && node test/esm.js",
-    "prepublish": "npm run build",
-    "prepare": "npm run build"
+    "prepublish": "cd ../.. && npm run build",
+    "prepare": "cd ../.. && npm run build"
   },
   "repository": {
     "type": "git",
