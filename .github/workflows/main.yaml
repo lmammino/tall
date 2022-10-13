@@ -25,11 +25,6 @@ jobs:
           restore-keys: |
             nodeModules-
 
-      - name: Make sure npm is used
-        run: npm install -g npm@^8.5
-        env:
-          CI: true
-
       - name: Install dependencies
         run: npm install
         env:
