@@ -56,8 +56,7 @@
     "typescript"
   ],
   "devDependencies": {
-    "@types/htmlparser2": "^3.10.3",
-    "tall": "file:../../tall"
+    "@types/htmlparser2": "^3.10.3"
   },
   "dependencies": {
     "htmlparser2": "^8.0.1"
