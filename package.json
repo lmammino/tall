@@ -4,7 +4,8 @@
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/tall",
+    "packages/tall-*"
   ],
   "scripts": {
     "format": "prettier --write ./**/*.{cjs,js,ts,json}",
