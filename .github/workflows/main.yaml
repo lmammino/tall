@@ -23,6 +23,11 @@ jobs:
           path: node_modules
           key: nodeModules-${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Upgrade npm for older versions of Node.js
+        run: npm install -g npm@^8.5
+        env:
+          CI: true
+
       - name: Install dependencies
         run: npm install
         env:
