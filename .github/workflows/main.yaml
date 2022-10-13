@@ -17,13 +17,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}.x
 
-      - name: Use cached node_modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: nodeModules-${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            nodeModules-
+      # - name: Use cached node_modules
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: node_modules
+      #     key: nodeModules-${{ matrix.node }}-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       nodeModules-
 
       - name: Install dependencies
         run: npm install
