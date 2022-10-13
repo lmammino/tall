@@ -23,7 +23,7 @@ export async function metaRefreshPlugin(
        * have a look at the `onopentagname` and `onattribute` events.
        */
       if (name === 'meta' && attributes['http-equiv'] === 'refresh') {
-        const match = attributes.content.match(/url=(.*)/)
+        const match = attributes.content.match(/url=['"]?([^'"]*)/i)
         if (match) {
           metaRefreshUrl = match[1]
         }
