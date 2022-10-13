@@ -19,7 +19,7 @@
   "engineStrict": true,
   "scripts": {
     "clean": "rm -rf ./lib",
-    "build": "ls -al ../../node_modules && ls -al node_modules && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && echo '{\"type\":\"commonjs\"}' > lib/cjs/package.json",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && echo '{\"type\":\"commonjs\"}' > lib/cjs/package.json",
     "build:test": "node test/commonjs.cjs && node test/esm.js",
     "prepublish": "npm run build",
     "prepare": "npm run build"
