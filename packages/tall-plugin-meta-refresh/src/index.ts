@@ -7,16 +7,15 @@ export async function metaRefreshPlugin(
   response: IncomingMessage,
   previous: Follow | Stop
 ): Promise<Follow | Stop> {
-  let html = ''
-  for await (const chunk of response) {
-    html += chunk.toString()
-  }
-
-  let metaRefreshUrl
+  let metaRefreshUrl: string | undefined
 
   const parser = new htmlparser2.Parser({
     onopentag(name, attributes) {
-      if (name === 'meta' && attributes['http-equiv'] === 'refresh') {
+      if (
+        !metaRefreshUrl &&
+        name === 'meta' &&
+        attributes['http-equiv'] === 'refresh'
+      ) {
         const match = attributes.content.match(/url=['"]?([^'"]*)/i)
         if (match) {
           metaRefreshUrl = match[1]
@@ -25,7 +24,14 @@ export async function metaRefreshPlugin(
     }
   })
 
-  parser.write(html)
+  for await (const chunk of response) {
+    if (metaRefreshUrl) {
+      // avoid parsing the entire response if we already found the meta refresh tag
+      break
+    }
+    parser.write(chunk.toString())
+  }
+  response.destroy()
   parser.end()
 
   if (metaRefreshUrl) {
