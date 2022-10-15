@@ -1,6 +1,6 @@
 {
   "name": "tall-monorepo",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
   "private": true,
   "workspaces": [

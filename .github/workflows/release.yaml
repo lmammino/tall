@@ -29,4 +29,4 @@ jobs:
           CI: true
 
       - name: Build & Publish
-        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc && npm publish --workspace=tall
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc && npm publish --workspace=tall --workspace=tall-plugin-meta-refresh

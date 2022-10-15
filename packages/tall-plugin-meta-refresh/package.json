@@ -1,6 +1,6 @@
 {
   "name": "tall-plugin-meta-refresh",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Tall plugin for following redirects in <meta http-equiv=\"refresh\"> tags",
   "type": "module",
   "main": "./lib/cjs/index.js",
