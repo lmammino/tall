@@ -30,6 +30,12 @@ With npm:
 npm i --save tall-plugin-meta-refresh
 ```
 
+or with yarn:
+
+```bash
+yarn add tall-plugin-meta-refresh
+```
+
 ## Usage
 
 To enable the plugin on a given `tall` instance:
