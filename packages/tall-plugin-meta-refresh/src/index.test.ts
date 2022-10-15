@@ -55,18 +55,18 @@ test('it does not follow meta refresh redirects if not found', async () => {
 test('it stop parsing as soon as the meta redirect tag is found', async () => {
   const response = Readable.from([
     `<html>
-  <head>
-  <meta
-    http`,
+       <head>
+         <meta
+           http`,
     `-equiv="refresh"
-    content="0;url=https://dest.pizza/a-link"
-  />`,
-    `</head>
-  <body>
-   <h1>hello</h1>
-   <p>Hello World</p>
- </body>
-</html>`
+           content="0;url=https://dest.pizza/a-link"
+         />`,
+    `  </head>
+       <body>
+         <h1>hello</h1>
+         <p>Hello World</p>
+       </body>
+     </html>`
   ])
 
   const url = new URL('https://example.com/a-link')

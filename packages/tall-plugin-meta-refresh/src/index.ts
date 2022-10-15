@@ -11,24 +11,19 @@ export async function metaRefreshPlugin(
 
   const parser = new htmlparser2.Parser({
     onopentag(name, attributes) {
-      if (
-        !metaRefreshUrl &&
-        name === 'meta' &&
-        attributes['http-equiv'] === 'refresh'
-      ) {
+      if (name === 'meta' && attributes['http-equiv'] === 'refresh') {
         const match = attributes.content.match(/url=['"]?([^'"]*)/i)
         if (match) {
           metaRefreshUrl = match[1]
+          parser.end()
         }
       }
     }
   })
 
   for await (const chunk of response) {
-    if (metaRefreshUrl) {
-      // avoid parsing the entire response if we already found the meta refresh tag
-      break
-    }
+    // avoid parsing the entire response if we already found the meta refresh tag
+    if (metaRefreshUrl) break
     parser.write(chunk.toString())
   }
   response.destroy()
