@@ -1,7 +1,7 @@
 import { Readable } from 'node:stream'
 import { IncomingMessage } from 'node:http'
 import nock from 'nock'
-import { locationHeaderPlugin, tall, Follow, Stop } from '../../tall'
+import { locationHeaderPlugin, tall, Follow } from '../../tall'
 import { metaRefreshPlugin } from './'
 
 beforeEach(() => {

@@ -1,4 +1,4 @@
-import { IncomingMessage } from 'http'
+import { IncomingMessage } from 'node:http'
 import nock from 'nock'
 import { Follow, locationHeaderPlugin, Stop, tall } from './'
 

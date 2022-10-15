@@ -6,10 +6,9 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Written in TypeScript](https://badgen.net/badge/-/TypeScript?icon=typescript&label&labelColor=blue&color=555555)](https://www.typescriptlang.org/)
 
-Promise-based, No-dependency URL unshortner (expander) module for Node.js 12+.
+Promise-based, No-dependency URL unshortner (expander) module for Node.js 16+.
 
 **Note**: This library is written in **TypeScript** and type definitions are provided.
-
 
 ## Install
 
@@ -33,25 +32,27 @@ ES6+ usage:
 import { tall } from 'tall'
 
 tall('http://www.loige.link/codemotion-rome-2017')
-  .then(unshortenedUrl => console.log('Tall url', unshortenedUrl))
-  .catch(err => console.error('AAAW 👻', err))
+  .then((unshortenedUrl) => console.log('Tall url', unshortenedUrl))
+  .catch((err) => console.error('AAAW 👻', err))
 ```
 
 With Async await:
 
 ```javascript
-import { tall } from 'tall';
+import { tall } from 'tall'
 
 async function someFunction() {
   try {
-    const unshortenedUrl = await tall('http://www.loige.link/codemotion-rome-2017');
-    console.log('Tall url', unshortenedUrl);
+    const unshortenedUrl = await tall(
+      'http://www.loige.link/codemotion-rome-2017'
+    )
+    console.log('Tall url', unshortenedUrl)
   } catch (err) {
-    console.error('AAAW 👻', err);
+    console.error('AAAW 👻', err)
   }
 }
 
-someFunction();
+someFunction()
 ```
 
 ES5:
@@ -59,10 +60,10 @@ ES5:
 ```javascript
 var { tall } = require('tall')
 tall('http://www.loige.link/codemotion-rome-2017')
-  .then(function(unshortenedUrl) {
+  .then(function (unshortenedUrl) {
     console.log('Tall url', unshortenedUrl)
   })
-  .catch(function(err) {
+  .catch(function (err) {
     console.error('AAAW 👻', err)
   })
 ```
@@ -90,10 +91,9 @@ tall('http://www.loige.link/codemotion-rome-2017', {
   method: 'HEAD',
   maxRedirect: 10
 })
-  .then(unshortenedUrl => console.log('Tall url', unshortenedUrl))
-  .catch(err => console.error('AAAW 👻', err))
+  .then((unshortenedUrl) => console.log('Tall url', unshortenedUrl))
+  .catch((err) => console.error('AAAW 👻', err))
 ```
-
 
 ## Plugins
 
@@ -105,9 +105,14 @@ You might want to write your own plugins to have more sophisticated behaviours.
 
 Some example?
 
- - Normalise the final URL if the final page has a `<link rel="canonical" href="http://example.com/page/" />` tag in the `<head>` of the document
- - Follow HTML meta refresh redirects (`<meta http-equiv="refresh" content="0;URL='http://example.com/'" />`)
+- Normalise the final URL if the final page has a `<link rel="canonical" href="http://example.com/page/" />` tag in the `<head>` of the document
+- Follow HTML meta refresh redirects (`<meta http-equiv="refresh" content="0;URL='http://example.com/'" />`)
 
+### Known plugins
+
+- [`tall-plugin-meta-refresh`](https://npm.im/tall-plugin-meta-refresh) (official): follows redirects in `<meta http-equiv="refresh">` tags
+
+Did you create a plugin for `tall`? Send us a PR to have it listed here!
 
 ## How to write a plugin
 
@@ -115,15 +120,17 @@ A plugin is simply a function with a specific signature:
 
 ```typescript
 export interface TallPlugin {
-  (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop>
+  (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<
+    Follow | Stop
+  >
 }
 ```
 
 So the only thing you need to do is to write your custom behaviour following this interface. But let's discuss briefly what the different elements mean here:
 
-  - `url`: Is the current URL being crawled
-  - `response`: is the actual HTTP response object representing the current
-  - `previous`: the decision from the previous plugin execution (continue following a given URL or stop at a given URL)
+- `url`: Is the current URL being crawled
+- `response`: is the actual HTTP response object representing the current
+- `previous`: the decision from the previous plugin execution (continue following a given URL or stop at a given URL)
 
 Every plugin is executed asynchronously, so a plugin returns a Promise that needs to resolve to a `Follow` or a `Stop` decision.
 
@@ -132,25 +139,24 @@ Let's deep dive into these two concepts. `Follow` and `Stop` are defined as _fol
 ```typescript
 export class Follow {
   follow: URL
-  constructor (follow: URL) {
+  constructor(follow: URL) {
     this.follow = follow
   }
 }
 
 export class Stop {
   stop: URL
-  constructor (stop: URL) {
+  constructor(stop: URL) {
     this.stop = stop
   }
 }
 ```
 
-`Follow` and `Stop` are effectively simple classes to express an intent: *should we follow the `follow` URL or should we stop at the `stop` URL?*
+`Follow` and `Stop` are effectively simple classes to express an intent: _should we follow the `follow` URL or should we stop at the `stop` URL?_
 
 Plugins are executed following the middleware pattern (or chain of responsibility): they are executed in order and the information is propagated from one to the other.
 
 For example, if we initialise `tall` with `{ plugins: [plugin1, plugin2] }`, for every URL, `plugin1` will be executed before `plugin2` and the decision of `plugin1` will be passed over onto `plugin2` using the `previous`) parameter.
-
 
 ## How to write and enable a plugin
 
@@ -161,15 +167,23 @@ Let's say we want to add a plugin that allows us to follow HTML meta refresh red
 import { IncomingMessage } from 'http'
 import { Follow, Stop } from 'tall'
 
-export async function metaRefreshPlugin (url: URL, response: IncomingMessage, previous: Follow | Stop): Promise<Follow | Stop> {
+export async function metaRefreshPlugin(
+  url: URL,
+  response: IncomingMessage,
+  previous: Follow | Stop
+): Promise<Follow | Stop> {
   let html = ''
   for await (const chunk of response) {
     html += chunk.toString()
   }
 
-  // note: this is actually not a great idea, it's best to use something like `cheerio` to properly parse HTML
-  // but for the sake of illustrating how to use plugins this is good enough here...
-  const metaHttpEquivUrl = html.match(/meta +http-equiv="refresh" +content="\d;url=(http[^"]+)"/)?.[1]
+  // note: This is just a dummy example to illustrate how to use the plugin API.
+  // It's not a great idea to parse HTML using regexes.
+  // If you are looking for a plugin that does this in a better way check out
+  // https://npm.im/tall-plugin-meta-refresh
+  const metaHttpEquivUrl = html.match(
+    /meta +http-equiv="refresh" +content="\d;url=(http[^"]+)"/
+  )?.[1]
 
   if (metaHttpEquivUrl) {
     return new Follow(new URL(metaHttpEquivUrl))
@@ -182,18 +196,17 @@ export async function metaRefreshPlugin (url: URL, response: IncomingMessage, pr
 Then, this is how you would use your shiny new plugin:
 
 ```typescript
-import {tall, locationHeaderPlugin} from 'tall'
+import { tall, locationHeaderPlugin } from 'tall'
 import { metaRefreshPlugin } from './metarefresh-plugin'
 
-const finalUrl = await tall('https://loige.link/senior', { plugins: [locationHeaderPlugin, metaRefreshPlugin] })
+const finalUrl = await tall('https://loige.link/senior', {
+  plugins: [locationHeaderPlugin, metaRefreshPlugin]
+})
 
 console.log(finalUrl)
 ```
 
 Note that we have to explicitly pass the `locationHeaderPlugin` if we want to retain `tall` original behaviour.
-
-
-
 
 ## Contributing
 
