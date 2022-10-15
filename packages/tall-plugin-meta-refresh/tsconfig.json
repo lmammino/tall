@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.json",
+  "files": ["./src/index.ts"],
+  "exclude": ["node_modules", "lib", "test"],
+  "compilerOptions": {
+    "outDir": "./lib/esm" /* Redirect output structure to the directory. */
+  }
+}

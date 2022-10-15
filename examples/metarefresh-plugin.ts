@@ -11,8 +11,10 @@ export async function metaRefreshPlugin(
     html += chunk.toString()
   }
 
-  // note: this is actually not a great idea, it's best to use something like cheerio to parse HTML
-  // but for the sake of illustrating how to use plugins this is good enough here...
+  // note: This is just a dummy example to illustrate how to use the plugin API.
+  // It's not a great idea to parse HTML using regexes.
+  // If you are looking for a plugin that does this in a better way check out
+  // https://npm.im/tall-plugin-meta-refresh
   const metaHttpEquivUrl = html.match(
     /meta +http-equiv="refresh" +content="\d;url=(http[^"]+)"/
   )?.[1]

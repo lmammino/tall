@@ -4,7 +4,8 @@
   "description": "Promise-based, No-dependency URL unshortner (expander) module for Node.js",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/tall",
+    "packages/tall-*"
   ],
   "scripts": {
     "format": "prettier --write ./**/*.{cjs,js,ts,json}",
@@ -31,7 +32,6 @@
     "@types/node": "^18.8.4",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
-    "codecov": "^3.8.1",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
