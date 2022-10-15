@@ -1,5 +1,5 @@
+import { IncomingMessage } from 'node:http'
 import * as htmlparser2 from 'htmlparser2'
-import { IncomingMessage } from 'http'
 import { Follow, Stop } from 'tall'
 
 export async function metaRefreshPlugin(
@@ -8,10 +8,13 @@ export async function metaRefreshPlugin(
   previous: Follow | Stop
 ): Promise<Follow | Stop> {
   let metaRefreshUrl: string | undefined
+  let bodyFound = false
 
   const parser = new htmlparser2.Parser({
     onopentag(name, attributes) {
-      if (
+      if (name === 'body') {
+        bodyFound = true
+      } else if (
         !metaRefreshUrl &&
         name === 'meta' &&
         attributes['http-equiv'] === 'refresh'
@@ -25,8 +28,9 @@ export async function metaRefreshPlugin(
   })
 
   for await (const chunk of response) {
-    if (metaRefreshUrl) {
+    if (metaRefreshUrl || bodyFound) {
       // avoid parsing the entire response if we already found the meta refresh tag
+      // or if we reached the body tag
       break
     }
     parser.write(chunk.toString())
